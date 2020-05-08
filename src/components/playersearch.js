@@ -7,6 +7,24 @@ import { Label, Input } from "@rebass/forms";
 // import nba from "nba-api-client";
 const nba = require("nba-api-client");
 
+// Testing a request
+const url = "https://balldontlie.io/api/v1/players?search=curry";
+const headers = {
+  //Host: "stats.nba.com",
+  "User-Agent": "PostmanRuntime/7.24.1",
+  Accept: "application/json, text/plain, */*",
+  //Referer: "https://stats.nba.com/",
+  "Accept-Encoding": "gzip, deflate, br",
+  Connection: "keep-alive",
+  //"x-nba-stats-origin": "stats",
+  //"x-nba-stats-token": "true",
+};
+fetch(url, headers).then((res) => {
+  console.log(res);
+});
+
+
+
 class PlayerSearch extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +32,7 @@ class PlayerSearch extends React.Component {
     this.state = {
       name: "",
       headshot: null,
-      draftBoard: []
+      draftBoard: [],
     };
 
     // Bind the function to give access to props.
@@ -30,13 +48,7 @@ class PlayerSearch extends React.Component {
   }
 
   getPlayerDetails(event) {
-    // nba.teamDetails({TeamID: 1610612745}).then(function(data){
-    //   console.log(data)
-    // }).catch((err) => {
-    //   console.log(err); 
-    // })
-    // debugger; 
-    // not test code
+    // nba-api-client
     event.preventDefault();
     const player = nba.getPlayerID(this.state.name);
 
@@ -44,6 +56,11 @@ class PlayerSearch extends React.Component {
       const playerId = player.PlayerID;
       const teamId = player.TeamID;
 
+      nba.teamDetails(teamId).then((res) => {
+        console.log(res);
+      });
+
+      debugger;
       const params = {
         PlayerID: playerId,
         TeamID: teamId,
@@ -103,7 +120,9 @@ class PlayerSearch extends React.Component {
             <Image src={img} />
             <Text>{name}</Text>
             <Button onClick={this.addToBoard}>Add Player</Button>
-            <Button variant="outline" onClick={this.removeFromBoard}>Remove Player</Button>
+            <Button variant="outline" onClick={this.removeFromBoard}>
+              Remove Player
+            </Button>
           </Card>
         ) : (
           <Card />

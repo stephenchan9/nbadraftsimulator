@@ -18,9 +18,9 @@ class Homepage extends React.Component {
     console.log("Finished Mounting Homepage");
   }
 
-  renderDraftBoard(players){
+  renderDraftBoard(players) {
     console.log("rendred the image cards");
-    this.setState({players: players});
+    this.setState({ players: players });
   }
 
   render() {
@@ -29,14 +29,14 @@ class Homepage extends React.Component {
 
     return (
       <React.Fragment>
-        <Heading>Welcome, {name}</Heading>
         <Flex>
-          <Box p={3} width={.2} bg="secondary">
-            Draft Board
-            <DraftBoardContainer players={players}/>
+          <Box p={3} width={0.2} bg="secondary">
+            {/* <Heading fontSize={[2]}>Draft Board</Heading> */}
+            <DraftBoardContainer players={players} />
           </Box>
-          <Box p={3} width={1 / 2}  bg="secondary">
-            <PlayerSearchContainer config= {this.props.config}/>
+          <Box p={3} width={1 / 2} bg="secondary">
+            <Heading>Welcome, {name}</Heading>
+            <PlayerSearchContainer config={this.props.config} />
           </Box>
         </Flex>
       </React.Fragment>
