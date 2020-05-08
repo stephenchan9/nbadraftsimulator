@@ -4,8 +4,6 @@ import { Box, Image, Text, Card } from "rebass";
 import { Button } from "rebass";
 import { Label, Input } from "@rebass/forms";
 
-// const nba = require('nba.js').default;
-
 // import nba from "nba-api-client";
 const nba = require("nba-api-client");
 
@@ -32,6 +30,13 @@ class PlayerSearch extends React.Component {
   }
 
   getPlayerDetails(event) {
+    // nba.teamDetails({TeamID: 1610612745}).then(function(data){
+    //   console.log(data)
+    // }).catch((err) => {
+    //   console.log(err); 
+    // })
+    // debugger; 
+    // not test code
     event.preventDefault();
     const player = nba.getPlayerID(this.state.name);
 
@@ -75,8 +80,6 @@ class PlayerSearch extends React.Component {
   }
 
   render() {
-    //const headshot = this.state.headshot;
-    // const name = this.state.value;
     const img = this.state.headshot;
     const name = this.state.name;
 

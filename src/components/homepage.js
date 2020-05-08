@@ -32,8 +32,8 @@ class Homepage extends React.Component {
         <Heading>Welcome, {name}</Heading>
         <Flex>
           <Box p={3} width={.2} bg="secondary">
-            Player cards here
-            {/* <DraftBoardContainer players={players}/> */}
+            Draft Board
+            <DraftBoardContainer players={players}/>
           </Box>
           <Box p={3} width={1 / 2}  bg="secondary">
             <PlayerSearchContainer config= {this.props.config}/>
