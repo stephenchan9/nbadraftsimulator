@@ -24,7 +24,7 @@ class Homepage extends React.Component {
   }
 
   render() {
-    const name = this.props.config.name;
+    const name = this.props.config.name || "User 1";
     const players = this.state.players;
 
     return (

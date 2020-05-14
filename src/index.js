@@ -30,13 +30,6 @@ const theme = {
   },
 };
 
-const config = {
-  name: "Stephen",
-  key:
-    "dj0yJmk9SHRVY2QySVJWbDdUJmQ9WVdrOWFsQnRZbTE1TlRZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTRi",
-  secret: "b685b69d028b2224408131b26104548c4cb95ce4",
-};
-
 ReactDOM.render(
   <React.Fragment>
     <Provider store={store}>
