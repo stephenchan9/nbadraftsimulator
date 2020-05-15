@@ -2,7 +2,7 @@
   "name": "nbadraftsimulator",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@rebass/forms": "^4.0.6",
     "@rebass/preset": "^4.0.5",
@@ -17,6 +17,7 @@
     "nba": "^4.13.0",
     "nba-api-client": "^1.0.9",
     "nba.js": "^0.6.1",
+    "passport": "^0.4.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
@@ -31,7 +32,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node-env-run server --exec nodemon | pino-colada",
+    "dev": "run-p server start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,5 +50,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "express-pino-logger": "^5.0.0",
+    "node-env-run": "^3.0.2",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "pino-colada": "^1.6.1",
+    "request": "^2.88.2"
   }
 }

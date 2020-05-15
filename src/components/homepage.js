@@ -10,7 +10,6 @@ class Homepage extends React.Component {
     this.state = {
       players: [],
     };
-    this.renderDraftBoard = this.renderDraftBoard.bind(this);
   }
 
   // called when the component is rendered
@@ -18,13 +17,8 @@ class Homepage extends React.Component {
     console.log("Finished Mounting Homepage");
   }
 
-  renderDraftBoard(players) {
-    console.log("rendred the image cards");
-    this.setState({ players: players });
-  }
-
   render() {
-    const name = this.props.config.name || "User 1";
+    const name = this.props.name || "User 1";
     const players = this.state.players;
 
     return (

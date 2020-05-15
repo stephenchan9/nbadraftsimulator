@@ -30,11 +30,12 @@ const theme = {
   },
 };
 
+
 ReactDOM.render(
   <React.Fragment>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Homepage config={config} />
+        <Homepage name="User" />
       </ThemeProvider>
     </Provider>
   </React.Fragment>,

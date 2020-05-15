@@ -6,24 +6,7 @@ import { Label, Input } from "@rebass/forms";
 
 // import nba from "nba-api-client";
 const nba = require("nba-api-client");
-
-// Testing a request
-const url = "https://balldontlie.io/api/v1/players?search=curry";
-const headers = {
-  //Host: "stats.nba.com",
-  "User-Agent": "PostmanRuntime/7.24.1",
-  Accept: "application/json, text/plain, */*",
-  //Referer: "https://stats.nba.com/",
-  "Accept-Encoding": "gzip, deflate, br",
-  Connection: "keep-alive",
-  //"x-nba-stats-origin": "stats",
-  //"x-nba-stats-token": "true",
-};
-fetch(url, headers).then((res) => {
-  console.log(res);
-});
-
-
+const data = require('nba.js').data; // Data from nba.data.net
 
 class PlayerSearch extends React.Component {
   constructor(props) {
@@ -51,22 +34,53 @@ class PlayerSearch extends React.Component {
     // nba-api-client
     event.preventDefault();
     const player = nba.getPlayerID(this.state.name);
+    
+
+    const testUrl = "https://www.balldontlie.io/api/v1/players";
+
+    // fetch(`/api/greeting?name=${this.state.name}`).then((res)=>{
+    //   return res.json();
+    // }).then((data) =>{
+    //   console.log(data);
+    // });
+
+    fetch(`/api/greeting?name=${this.state.name}`).then((res)=>{
+      return res.json();
+    }).then((data) =>{
+      console.log(data);
+    });
+
+    fetch(`/getAPIResponse`).then((res)=>{
+      debugger;
+      return res.json();
+    }).then((data) =>{
+      console.log(data);
+    });
 
     if (player) {
       const playerId = player.PlayerID;
       const teamId = player.TeamID;
-
-      nba.teamDetails(teamId).then((res) => {
-        console.log(res);
-      });
-
-      debugger;
+      
       const params = {
         PlayerID: playerId,
         TeamID: teamId,
       };
       // Get the player headshot
       const img = nba.getPlayerHeadshotURL(params);
+
+      // Get their bio stats. Using nba.data api.
+      const dataParams = {
+        personId: playerId,
+        year: 2019
+      }
+      data.playerProfile(dataParams, (err, res) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      
+        console.log(res);
+      })
 
       this.setState({ headshot: img });
     }
@@ -80,7 +94,7 @@ class PlayerSearch extends React.Component {
     for (let i = 0; i < draftBoard.length; i++) {
       if (draftBoard[i].name === this.state.name) {
         alreadyExists = true;
-      }
+      } 
     }
 
     // Call the dispatch function to add to the player if not already in the board.
