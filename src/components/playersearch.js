@@ -15,6 +15,12 @@ class PlayerSearch extends React.Component {
     this.state = {
       name: "",
       headshot: null,
+      playerStats: null,
+      careerSummary: {
+        ppg: "",
+        gamesPlayed:""
+      },
+      lastSeason: null,
       draftBoard: [],
     };
 
@@ -44,23 +50,19 @@ class PlayerSearch extends React.Component {
     //   console.log(data);
     // });
 
-    fetch(`/api/greeting?name=${this.state.name}`).then((res)=>{
-      return res.json();
-    }).then((data) =>{
-      console.log(data);
-    });
-
-    fetch(`/getAPIResponse`).then((res)=>{
-      debugger;
-      return res.json();
-    }).then((data) =>{
-      console.log(data);
-    });
+    // Middleware for yahoo fantasy API.
+    // fetch(`/getAPIResponse`).then((res)=>{
+    //   debugger;
+    //   return res.json();
+    // }).then((data) =>{
+    //   console.log(data);
+    // });
 
     if (player) {
       const playerId = player.PlayerID;
       const teamId = player.TeamID;
       
+      // nba api-client
       const params = {
         PlayerID: playerId,
         TeamID: teamId,
@@ -73,13 +75,17 @@ class PlayerSearch extends React.Component {
         personId: playerId,
         year: 2019
       }
+
       data.playerProfile(dataParams, (err, res) => {
         if (err) {
           console.error(err);
           return;
         }
       
-        console.log(res);
+        const stats = res.league.standard.stats;
+        console.log(stats);
+        this.setState({careerSummary: stats.careerSummary}); // Assign the stats here to use whenever in the state of the component.
+        this.setState({lastSeason: stats.latest}); // Assign the stats here to use whenever in the state of the component.
       })
 
       this.setState({ headshot: img });
@@ -113,6 +119,7 @@ class PlayerSearch extends React.Component {
   render() {
     const img = this.state.headshot;
     const name = this.state.name;
+    const careerStats = "" || `Points: ${this.state.careerSummary.ppg}, Games: ${this.state.careerSummary.gamesPlayed}`;
 
     return (
       <React.Fragment>
@@ -133,6 +140,8 @@ class PlayerSearch extends React.Component {
           <Card>
             <Image src={img} />
             <Text>{name}</Text>
+            <Text >Player Bio</Text>
+            <Text color="primary">{careerStats}</Text>
             <Button onClick={this.addToBoard}>Add Player</Button>
             <Button variant="outline" onClick={this.removeFromBoard}>
               Remove Player

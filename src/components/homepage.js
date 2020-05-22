@@ -25,7 +25,7 @@ class Homepage extends React.Component {
       <React.Fragment>
         <Flex>
           <Box p={3} width={0.2} bg="secondary">
-            {/* <Heading fontSize={[2]}>Draft Board</Heading> */}
+            <Heading>Draft Board</Heading>
             <DraftBoardContainer players={players} />
           </Box>
           <Box p={3} width={1 / 2} bg="secondary">
