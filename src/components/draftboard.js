@@ -11,12 +11,12 @@ class DraftBoard extends React.Component {
     this.state = {
       toggle: false,
     };
-    this.toggleAll = this.toggleAll.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
   // Function will toggle all players in draftboard to visible.
-  toggleAll(state) {
-    this.setState({ toggle: !state });
+  handleToggle() {
+    this.setState({toggle: !this.state.toggle});
   }
 
   render() {
@@ -24,7 +24,7 @@ class DraftBoard extends React.Component {
     const toggle = this.state.toggle;
     let parsedCards = [];
 
-    // Creates the image card here.
+    // Creates the image card here. Use a loop to place all cards in an array.
     if (players.length > 0) {
       for (let i = 0; i < players.length; i++) {
         parsedCards.push(
@@ -53,7 +53,7 @@ class DraftBoard extends React.Component {
             id="switchEnabled"
             type="switch"
             checked={this.state.toggle}
-            //onClick={this.toggleAll(this.state.toggle)}
+            onClick={this.handleToggle}
           ></Switch>
           <Text fontSize={[1]}>{toggle ? "Toggle On": "Toggle Off"}</Text>
         </Box>

@@ -28,9 +28,12 @@ class Homepage extends React.Component {
             <Heading>Draft Board</Heading>
             <DraftBoardContainer players={players} />
           </Box>
-          <Box p={3} width={1 / 2} bg="secondary">
+          <Box p={3} width={.5} bg="secondary">
             <Heading>Welcome, {name}</Heading>
             <PlayerSearchContainer config={this.props.config} />
+          </Box>
+          <Box p={1}  bg="secondary">
+            <Heading>Player Suggestions</Heading>
           </Box>
         </Flex>
       </React.Fragment>
