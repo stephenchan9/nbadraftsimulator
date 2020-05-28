@@ -14,7 +14,6 @@ const draftBoard = (state = initialState, action) => {
          draftBoard: [...state.draftBoard, action.payload],
       };
     case REMOVE_PLAYER: // filter returns an array of all items that satisfy the condition. We want an rray that satisfies the condition.
-    debugger;
     const testResult = {...state, draftBoard: state.draftBoard.filter((obj) => obj.name !== action.payload.name)};
     console.log(testResult);
       return {
