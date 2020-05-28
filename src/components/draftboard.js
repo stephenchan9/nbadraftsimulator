@@ -22,13 +22,17 @@ class DraftBoard extends React.Component {
   render() {
     const players = this.props.draftBoard;
     const toggle = this.state.toggle;
+    
     let parsedCards = [];
 
     // Creates the image card here. Use a loop to place all cards in an array.
     if (players.length > 0) {
+
       for (let i = 0; i < players.length; i++) {
+        const stats = players[i].stats;
+
         parsedCards.push(
-          <Card key={players[i].name + i} width={256}>
+          <Card py={10} key={players[i].name + i} width={256}>
             <Image
               variant="avatar"
               sx={{
@@ -40,6 +44,9 @@ class DraftBoard extends React.Component {
             <Text fontSize={[1]} color="primary">
               {players[i].name}
             </Text>
+            <Text fontSize={[1]}>
+              Points: {stats.ppg} Assists: {stats.apg}
+            </Text>
           </Card>
         );
       }
@@ -48,8 +55,8 @@ class DraftBoard extends React.Component {
     return (
       <React.Fragment>
         <Box>{toggle ? "" : parsedCards}</Box>
-        <Box>
-          <Switch
+        <Box mt= {10}>
+          <Switch mt={2}
             id="switchEnabled"
             type="switch"
             checked={this.state.toggle}

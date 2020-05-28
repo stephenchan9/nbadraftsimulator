@@ -3,11 +3,10 @@ import ReactDOM from "react-dom";
 import Homepage from "./components/homepage.js";
 import { ThemeProvider } from "emotion-theming";
 // import theme from "@rebass/preset";
-
 // React redux
 import { Provider } from "react-redux";
-import { createStore } from 'redux'
-import draftBoard from "./reducers/draftboardreducer.js"
+import { createStore } from "redux";
+import draftBoard from "./reducers/draftboardreducer.js";
 
 const store = createStore(draftBoard);
 
@@ -29,7 +28,6 @@ const theme = {
     },
   },
 };
-
 
 ReactDOM.render(
   <React.Fragment>

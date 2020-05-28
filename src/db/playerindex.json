@@ -1,8 +1,30 @@
 {
-    "Lebron James": {
-        "name": "Lebron",
+    "LeBron James": {
+        "name": "Lebron James",
         "number": "23"
     },
-    "James Harden": {},
-    
+    "Stephen Curry": {
+        "name": "Stephen Curry",
+        "number": "30"
+    },
+    "James Harden": {
+        "name": "James Harden",
+        "number": "13"
+    },
+    "Marc Gasol": {
+        "name": "Marc Gasol",
+        "number": "33"
+    },
+    "Daniel Theis": {
+        "name": "Daniel Theis",
+        "number": "44"
+    },
+    "Jayson Tatum": {
+        "name": "Jayson Tatum",
+        "number": "0"
+    },
+     "Klay Thompson": {
+        "name": "Klay Thompson",
+        "number": "11"
+    } 
 }
