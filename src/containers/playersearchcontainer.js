@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addPlayer: (img, name) => dispatch(addToBoard(img, name)),
+    addPlayer: (img, name, stats) => dispatch(addToBoard(img, name, stats)),
     removePlayer: (name) => dispatch(removeFromBoard(name)),
   };
 };

@@ -1,7 +1,8 @@
 import React from "react";
-import { Heading, Flex, Box } from "rebass";
+import { Heading, Flex, Box, Link, Text } from "rebass";
 import DraftBoardContainer from "../containers/draftboardcontainer.js";
 import PlayerSearchContainer from "../containers/playersearchcontainer.js";
+import PersistentDrawerLeft from "../components/drawer.js";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -23,19 +24,18 @@ class Homepage extends React.Component {
 
     return (
       <React.Fragment>
-        <Flex>
-          <Box p={3} width={0.2} bg="secondary">
-            <Heading>Draft Board</Heading>
-            <DraftBoardContainer players={players} />
-          </Box>
-          <Box p={3} width={.5} bg="secondary">
-            <Heading>Welcome, {name}</Heading>
-            <PlayerSearchContainer config={this.props.config} />
-          </Box>
-          <Box p={1}  bg="secondary">
-            <Heading>Player Suggestions</Heading>
-          </Box>
-        </Flex>
+          <Flex>
+            <Box p={3} width={0.2} bg="secondary">
+              <Heading>Draft Board</Heading>
+              <DraftBoardContainer players={players} />
+            </Box>
+            <Box p={3} width={0.4} bg="secondary">
+              <Heading>Welcome, {name}</Heading>
+              <PlayerSearchContainer config={this.props.config} />
+            </Box>
+          </Flex>
+          {/* <PersistentDrawerLeft>
+        </PersistentDrawerLeft> */}
       </React.Fragment>
     );
   }

@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
-// import ImageCard from "../components/imagecard.js";
-import { addToBoard, removeFromBoard } from "../actions/draftboardactions.js"
+// import { addToBoard, removeFromBoard } from "../actions/draftboardactions.js"
 import DraftBoard from "../components/draftboard.js";
 
 const mapStateToProps = (state, ownProps) => {
