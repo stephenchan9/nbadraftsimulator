@@ -18,13 +18,16 @@ class PlayerSearch extends React.Component {
 
     this.state = {
       name: "",
-      headshot: null,
-      playerStats: null,
+      img: null,
+      playerId: null,
       careerSummary: {
         ppg: "",
         gamesPlayed: "",
       },
-      lastSeason: null,
+      lastSeason: {
+        ppg: "",
+        apg: "",
+      },
       draftBoard: [],
     };
 
@@ -34,6 +37,7 @@ class PlayerSearch extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.getPlayerDetails = this.getPlayerDetails.bind(this);
     this.suggestionClick = this.suggestionClick.bind(this);
+    this.retrievePlayerProfile = this.retrievePlayerProfile.bind(this);
   }
 
   handleChange(event) {
@@ -43,41 +47,59 @@ class PlayerSearch extends React.Component {
 
   getPlayerDetails() {
     // nba-api-client
-    //event.preventDefault();
     const player = nba.getPlayerID(this.state.name);
-  
+
     if (player) {
       const playerId = player.PlayerID;
       const teamId = player.TeamID;
+
+      // set the playerId, personId, teamId to the state so it can be used in other functions
+      this.setState({ playerId: playerId }); 
+      this.setState({ teamId: teamId }); 
 
       // nba api-client
       const params = {
         PlayerID: playerId,
         TeamID: teamId,
       };
-      // Get the player headshot
+      // Get the player headshot and set it to the state.
       const img = nba.getPlayerHeadshotURL(params);
+      this.setState({ img: img });
 
-      // Get their bio stats. Using nba.data api.
+      // dataParams for requesting data from nba.js data client. Different then nba api-client.
       const dataParams = {
         personId: playerId,
         year: 2019,
       };
 
-      data.playerProfile(dataParams, (err, res) => {
+      // call our function that will make an http request to retrieve player stats using nba.js data api
+      this.retrievePlayerProfile(dataParams).then((result)=>{
+        console.log(`Result from retrievePlayerProfile: ${result}`);
+
+        this.setState({ careerSummary: result.careerSummary }); // Assign the stats here to use whenever in the state of the component.
+        this.setState({ lastSeason: result.latest }); // Assign the stats here to use whenever in the state of the component.
+      }).catch((err)=>{
+        console.err(err);
+      });
+    }
+  }
+
+  // makes an http request and returns a promise based on if succeeding or not.
+  retrievePlayerProfile(params){
+    return new Promise((resolve, reject) =>{
+      data.playerProfile(params, (err, res) => {
         if (err) {
           console.error(err);
-          return;
+          reject(err);
         }
-
+  
         const stats = res.league.standard.stats;
         console.log(stats);
-        this.setState({ careerSummary: stats.careerSummary }); // Assign the stats here to use whenever in the state of the component.
-        this.setState({ lastSeason: stats.latest }); // Assign the stats here to use whenever in the state of the component.
-      });
 
-      this.setState({ headshot: img });
-    }
+        resolve(stats);
+      });
+    })
+    
   }
 
   addToBoard(event) {
@@ -93,7 +115,12 @@ class PlayerSearch extends React.Component {
 
     // Call the dispatch function to add to the player if not already in the board.
     if (!alreadyExists) {
-      this.props.addPlayer(this.state.headshot, this.state.name, this.state.lastSeason);
+      // pass in just 1 param that will contain all the player info
+      // we clone the state into the variable and remove draftBoard key since its not needed.
+      let cloneOfState = this.state;
+      delete cloneOfState.draftBoard;
+
+      this.props.addPlayer(cloneOfState);
     }
   }
 
@@ -128,11 +155,11 @@ class PlayerSearch extends React.Component {
   }
 
   render() {
-    const img = this.state.headshot;
+    const img = this.state.img;
     const name = this.state.name;
-    const careerStats =
+    const lastSeasonStats =
       "" ||
-      `Points: ${this.state.careerSummary.ppg}, Games: ${this.state.careerSummary.gamesPlayed}`;
+      `Points: ${this.state.lastSeason.ppg}, Apg: ${this.state.lastSeason.apg} Year: ${this.state.lastSeason.seasonYear}`;
 
     return (
       <React.Fragment>
@@ -159,7 +186,7 @@ class PlayerSearch extends React.Component {
                 <Image src={img} />
                 <Text>{name}</Text>
                 <Text>Player Bio:</Text>
-                <Text color="primary">{careerStats}</Text>
+                <Text color="primary">{lastSeasonStats}</Text>
                 <Button onClick={this.addToBoard}>Add Player</Button>
                 <Button variant="outline" onClick={this.removeFromBoard}>
                   Remove Player

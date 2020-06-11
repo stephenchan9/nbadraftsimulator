@@ -1,6 +1,8 @@
 import React from "react";
-import { Box, Image, Text, Card } from "rebass";
+import { Button, Box, Image, Text, Card } from "rebass";
 import { Switch } from "@rebass/forms";
+// Data from nba.data.net
+const data = require("nba.js").data; 
 
 // Left side component of the homepage that will hold all players that were added on the draft board.
 // This should be reading from the state.
@@ -12,11 +14,59 @@ class DraftBoard extends React.Component {
       toggle: false,
     };
     this.handleToggle = this.handleToggle.bind(this);
+    this.buildTeam = this.buildTeam.bind(this);
+    this.teamLeadersRequest = this.teamLeadersRequest.bind(this);
   }
 
   // Function will toggle all players in draftboard to visible.
   handleToggle() {
     this.setState({toggle: !this.state.toggle});
+  }
+
+  // function builds the rest of the players using information from the draftboard.
+  // What algorithm am I going to use to design this?
+  /*
+    total of 10 starters per lineup.
+    1. get the total number of players currently in the draftboard.
+    2. we will query for the team leaders for a respective team
+    3. for this case lets just pick a certain team and then query for their leaders.
+  */
+  buildTeam() {
+    const draftBoardPlayers = this.props.draftBoard;
+    // we start with 10 max players but make this number configurable in the future.
+    let remainingPlayerCount = 10 - draftBoardPlayers.length;
+
+    // We know we have to work with this many players.
+    if(remainingPlayerCount  > 0){
+      for(let i=0; i< remainingPlayerCount; i++){
+        // we grab a team and query for their team leaders
+        let teams = ["celtics", "jazz", "lakers", "bulls"];
+        let randTeamIndex = Math.floor(Math.random() * Math.floor(teams.length - 1)); // returns a random integer from 0 to teams.length
+
+        // we query for a random team from the array above in our request.
+        this.teamLeadersRequest(2019, teams[randTeamIndex]).then((result) =>{
+          console.log(result);
+
+        }).catch((err)=>{
+          console.err(err);
+        });
+      }
+    }
+  }
+
+  // makes a http request using nba.js data api. Returns a promise with the team leaders data.
+  teamLeadersRequest(year, team){
+    return new Promise((resolve, reject) =>{
+      data.teamLeaders({year: year, teamName: team}, (err, res) => {
+          if(err){
+            console.error(err);
+            reject(err);
+          }
+          // we only want to get the data that we care about from the json.
+          let standardStats = res.league.standard;
+          resolve(standardStats);
+      });
+    })
   }
 
   render() {
@@ -27,9 +77,8 @@ class DraftBoard extends React.Component {
 
     // Creates the image card here. Use a loop to place all cards in an array.
     if (players.length > 0) {
-
       for (let i = 0; i < players.length; i++) {
-        const stats = players[i].stats;
+        const stats = players[i].lastSeason;
 
         parsedCards.push(
           <Card py={10} key={players[i].name + i} width={256}>
@@ -64,6 +113,7 @@ class DraftBoard extends React.Component {
           ></Switch>
           <Text fontSize={[1]}>{toggle ? "Toggle On": "Toggle Off"}</Text>
         </Box>
+        <Button onClick={() => this.buildTeam()}>Create Team</Button>
       </React.Fragment>
     );
   }

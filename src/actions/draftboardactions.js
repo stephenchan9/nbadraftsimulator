@@ -1,15 +1,11 @@
 export const ADD_PLAYER = "ADD_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
 
-
-export const addToBoard = (img, playerName, stats) =>{
+// playerInfo is an object.
+export const addToBoard = (playerInfo) =>{
     return {
         type: "ADD_PLAYER",
-        payload:{
-            img,
-            name: playerName,
-            stats
-        }
+        payload: playerInfo
     }
 }
 
