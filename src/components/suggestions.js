@@ -10,7 +10,7 @@ import { Button, Box } from "rebass";
 class Suggestions extends React.Component {
   constructor(props) {
     super(props);    
-    // this gets the number of players in the playerindex.json
+    // this gets the number of players in the playersuggestion.json
     const count = Object.keys(this.props.players).length;
 
     this.state = {

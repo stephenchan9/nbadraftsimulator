@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Image, Text, Card, Flex } from "rebass";
 import { Button } from "rebass";
 import { Label, Input } from "@rebass/forms";
-import Container from 'react-bootstrap/Container'
+// import Container from 'react-bootstrap/Container'
 // child component of the playersearch box
 import Suggestions from "./suggestions";
-const players = require("../db/playerindex.json");
+const players = require("../db/playersuggestion.json");
 
 
 // import nba from "nba-api-client";
