@@ -1,5 +1,6 @@
 export const ADD_PLAYER = "ADD_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
+// export const BUILD_REMAINING_TEAM = "BUILD_REMAINING_TEAM";
 
 // playerInfo is an object.
 export const addToBoard = (playerInfo) =>{
@@ -17,3 +18,10 @@ export const removeFromBoard = (playerName) =>{
         }
     }
 }
+
+// export const buildRemainingTeam = (players) =>{
+//     return {
+//         type: "BUILD_REMAINING_TEAM",
+//         payload: players
+//     }
+// }

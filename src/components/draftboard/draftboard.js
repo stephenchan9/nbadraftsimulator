@@ -1,11 +1,15 @@
+/* eslint-disable react/prop-types */
 import React from "react";
+import PropTypes from 'prop-types';
 import { Button, Box, Image, Text, Card } from "rebass";
 import { Switch } from "@rebass/forms";
+import DraftBoardSuggested from "./draftboardsuggested";
+
 // Data from nba.data.net
 const data = require("nba.js").data;
 const nba = require("nba-api-client");
-const playersDB = require("../db/players.json");
-const teams = ["celtics", "jazz", "lakers", "bulls"];
+const playersDB = require("../../db/players.json");
+const teams = require("../../db/teams.json");
 const categories = [
   "apg",
   "bpg",
@@ -40,7 +44,7 @@ class DraftBoard extends React.Component {
     });
   }
 
-  // function builds the rest of the players using information from the draftboard.
+  // Async function that builds the rest of the players using information from the draftboard.
   // What algorithm am I going to use to design this?
   /*
     total of 10 starters per lineup.
@@ -58,15 +62,18 @@ class DraftBoard extends React.Component {
     // We know we have to work with this many players.
     if (remainingPlayerCount > 0) {
       for (let i = 0; i < remainingPlayerCount; i++) {
+        // retrieve all of the keys for the teams.json and select a random key.
+        let teamKeys = Object.keys(teams);
         // we grab a random team and category query for their team leaders
         let randTeamIndex = Math.floor(
-          Math.random() * Math.floor(teams.length - 1)
+          Math.random() * Math.floor(teamKeys.length - 1)
         );
         let randomCategoryIndex = Math.floor(
           Math.random() * Math.floor(categories.length - 1)
         );
+        let randomTeam = teams[teamKeys[randTeamIndex]];
 
-        this.teamLeadersRequest(2019, teams[randTeamIndex])
+        this.teamLeadersRequest(2019, randomTeam.TeamName.toLowerCase())
           .then((result) => {
             console.log(result);
 
@@ -75,20 +82,27 @@ class DraftBoard extends React.Component {
             // now we need to search our players.json for the player and team name
             for (let player of playersDB) {
               if (player.playerId === parseInt(playerObj.personId)) {
-                // Add the category they were leading in and push this player json into array
+                // Add the following information for the player obj
+                // 1. leading category
+                // 2. category val
+                // 3. headshot img.
                 player.category = categories[randomCategoryIndex];
                 player.categoryValue = playerObj.value;
+                player.img = nba.getPlayerHeadshotURL({PlayerID: player.playerId, TeamID: player.teamId});
                 restOfPlayersArr.push(player);
               }
+            }
+
+            // instead we want to show this to the 
+            if (restOfPlayersArr.length === remainingPlayerCount) {
+              console.log(restOfPlayersArr);
+              //this.props.buildRemainingTeam(restOfPlayersArr);
             }
           })
           .catch((err) => {
             console.error(err);
           });
       }
-
-      // contains the newly generated players.
-      console.log(restOfPlayersArr);
     }
   }
 
@@ -167,3 +181,8 @@ class DraftBoard extends React.Component {
 }
 
 export default DraftBoard;
+
+
+DraftBoard.propTypes = {
+  draftBoard: PropTypes.array,
+}
