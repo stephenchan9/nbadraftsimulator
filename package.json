@@ -20,7 +20,7 @@
     "nba": "^4.13.0",
     "nba-api-client": "^1.0.9",
     "nba.js": "^0.6.1",
-    "passport": "^0.4.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
@@ -32,6 +32,7 @@
     "yahoo-fantasy": "^3.2.0"
   },
   "scripts": {
+    "nuke": "rimraf node_modules & rimraf package-lock.json",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

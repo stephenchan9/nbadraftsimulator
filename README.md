@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## NBA Draft Simulator
+The idea for this app was to allow for users to craft teams of 10 players to fit into a starting lineup. These 10 players are based upon category leaders in respective teams.
+
 ## Available Scripts
 
 In the project directory, you can run:
