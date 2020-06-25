@@ -1,5 +1,5 @@
 import React from "react";
-import { Heading, Flex, Box, Link, Text } from "rebass";
+import { Heading, Flex, Box } from "rebass";
 import DraftBoardContainer from "../containers/draftboardcontainer.js";
 import PlayerSearchContainer from "../containers/playersearchcontainer.js";
 import PersistentDrawerLeft from "../components/drawer.js";
