@@ -2,7 +2,7 @@ import React from "react";
 import { Heading, Flex, Box } from "rebass";
 import DraftBoardContainer from "../containers/draftboardcontainer.js";
 import PlayerSearchContainer from "../containers/playersearchcontainer.js";
-import PersistentDrawerLeft from "../components/drawer.js";
+import PermanentDrawerLeft from "../components/material-assets/drawers/permDrawer.js";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -22,8 +22,14 @@ class Homepage extends React.Component {
     const name = this.props.name || "User 1";
     const players = this.state.players;
 
+    const draftBoardProps = {
+      players: this.props.players,
+      heading: "Draft Board"
+    }
+
     return (
       <React.Fragment>
+        <PermanentDrawerLeft draftBoard={draftBoardProps} heading={`Welcome ${name}`}/>
           <Flex>
             <Box p={3} width={0.2} bg="secondary">
               <Heading>Draft Board</Heading>
@@ -34,8 +40,6 @@ class Homepage extends React.Component {
               <PlayerSearchContainer config={this.props.config} />
             </Box>
           </Flex>
-          {/* <PersistentDrawerLeft>
-        </PersistentDrawerLeft> */}
       </React.Fragment>
     );
   }
