@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Button, Box, Image, Text, Card } from "rebass";
 import { Switch } from "@rebass/forms";
 import DraftBoardSuggested from "./draftboardsuggested";
@@ -88,12 +88,15 @@ class DraftBoard extends React.Component {
                 // 3. headshot img.
                 player.category = categories[randomCategoryIndex];
                 player.categoryValue = playerObj.value;
-                player.img = nba.getPlayerHeadshotURL({PlayerID: player.playerId, TeamID: player.teamId});
+                player.img = nba.getPlayerHeadshotURL({
+                  PlayerID: player.playerId,
+                  TeamID: player.teamId,
+                });
                 restOfPlayersArr.push(player);
               }
             }
 
-            // instead we want to show this to the 
+            // instead we want to show this to the
             if (restOfPlayersArr.length === remainingPlayerCount) {
               console.log(restOfPlayersArr);
               //this.props.buildRemainingTeam(restOfPlayersArr);
@@ -147,15 +150,14 @@ class DraftBoard extends React.Component {
                 borderRadius: 8,
               }}
               src={players[i].img}
-            />{" "}
+            />
             <Text fontSize={[1]} color="primary">
-              {" "}
-              {players[i].name}{" "}
-            </Text>{" "}
+              {players[i].name}
+            </Text>
             <Text fontSize={[1]}>
-              Points: {stats.ppg}
-              Assists: {stats.apg}{" "}
-            </Text>{" "}
+              PPG: {stats.ppg}
+              APG: {stats.apg}
+            </Text>
           </Card>
         );
       }
@@ -163,7 +165,7 @@ class DraftBoard extends React.Component {
 
     return (
       <React.Fragment>
-        <Box> {toggle ? "" : parsedCards} </Box>{" "}
+        <Box> {toggle ? "" : parsedCards} </Box>
         <Box mt={10}>
           <Switch
             mt={2}
@@ -171,10 +173,10 @@ class DraftBoard extends React.Component {
             type="switch"
             checked={this.state.toggle}
             onClick={this.handleToggle}
-          ></Switch>{" "}
-          <Text fontSize={[1]}> {toggle ? "Toggle On" : "Toggle Off"} </Text>{" "}
-        </Box>{" "}
-        <Button onClick={() => this.buildTeam()}> Create Team </Button>{" "}
+          ></Switch>
+          <Text fontSize={[1]}> {toggle ? "Toggle On" : "Toggle Off"} </Text>
+        </Box>
+        <Button onClick={() => this.buildTeam()}> Create Team </Button>
       </React.Fragment>
     );
   }
@@ -182,7 +184,6 @@ class DraftBoard extends React.Component {
 
 export default DraftBoard;
 
-
 DraftBoard.propTypes = {
   draftBoard: PropTypes.array,
-}
+};
