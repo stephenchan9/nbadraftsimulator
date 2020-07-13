@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Homepage from "./components/homepage.js";
+import Homepage from "./pages/homepage.js";
 import { ThemeProvider } from "emotion-theming";
 // import theme from "@rebass/preset";
 // React redux

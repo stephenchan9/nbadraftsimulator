@@ -1,5 +1,6 @@
 import React from "react";
-import PermanentDrawerLeft from "../components/material-assets/drawers/permanent.js";
+import PermanentDrawerLeft from "../components/material-assets/drawers/permDrawer.js";
+import PropTypes from "prop-types";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -23,6 +24,10 @@ class Homepage extends React.Component {
       </React.Fragment>
     );
   }
+}
+
+Homepage.propTypes = {
+  name: PropTypes.string,
 }
 
 export default Homepage;
