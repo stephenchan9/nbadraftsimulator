@@ -1,16 +1,9 @@
 import { connect } from "react-redux";
-// import { buildRemainingTeam } from "../actions/draftboardactions.js"
 import DraftBoard from "../components/draftboard/draftboard.js";
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return state;
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  // return {
-  //   buildRemainingTeam: (players) => dispatch(buildRemainingTeam(players))
-  // };
-};
-
-const DraftBoardContainer = connect(mapStateToProps, mapDispatchToProps)(DraftBoard);
+const DraftBoardContainer = connect(mapStateToProps)(DraftBoard);
 export default DraftBoardContainer;

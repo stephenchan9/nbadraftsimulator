@@ -2,7 +2,8 @@ import React from "react";
 import { Box, Image, Text, Card, Flex } from "rebass";
 import { Button } from "rebass";
 import { Label, Input } from "@rebass/forms";
-// import Container from 'react-bootstrap/Container'
+import PropTypes from "prop-types";
+
 // child component of the playersearch box
 import Suggestions from "./suggestions";
 const players = require("../db/playersuggestion.json");
@@ -16,6 +17,7 @@ class PlayerSearch extends React.Component {
   constructor(props) {
     super(props);
 
+    // define the initial state with empty fields.
     this.state = {
       name: "",
       img: null,
@@ -207,3 +209,9 @@ class PlayerSearch extends React.Component {
 }
 
 export default PlayerSearch;
+
+PlayerSearch.propTypes = {
+  draftBoard: PropTypes.array.isRequired,
+  addPlayer: PropTypes.func.isRequired,
+  removePlayer: PropTypes.func.isRequired,
+};

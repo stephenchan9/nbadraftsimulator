@@ -33,7 +33,7 @@ ReactDOM.render(
   <React.Fragment>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Homepage name="User" />
+        <Homepage heading="Welcome User" draftBoard ={[]}/>
       </ThemeProvider>
     </Provider>
   </React.Fragment>,
