@@ -1,13 +1,14 @@
 import React from "react";
 import { Box, Image, Text, Card, Flex } from "rebass";
-import { Button } from "rebass";
-import { Label, Input } from "@rebass/forms";
+// import { Button } from "rebass";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+//import Box from "@material-ui/core/Box";
 
 // child component of the playersearch box
 import Suggestions from "./suggestions";
 const players = require("../db/playersuggestion.json");
-
 
 // import nba from "nba-api-client";
 const nba = require("nba-api-client");
@@ -56,8 +57,8 @@ class PlayerSearch extends React.Component {
       const teamId = player.TeamID;
 
       // set the playerId, personId, teamId to the state so it can be used in other functions
-      this.setState({ playerId: playerId }); 
-      this.setState({ teamId: teamId }); 
+      this.setState({ playerId: playerId });
+      this.setState({ teamId: teamId });
 
       // nba api-client
       const params = {
@@ -75,33 +76,34 @@ class PlayerSearch extends React.Component {
       };
 
       // call our function that will make an http request to retrieve player stats using nba.js data api
-      this.retrievePlayerProfile(dataParams).then((result)=>{
-        console.log(`Result from retrievePlayerProfile: ${result}`);
+      this.retrievePlayerProfile(dataParams)
+        .then((result) => {
+          console.log(`Result from retrievePlayerProfile: ${result}`);
 
-        this.setState({ careerSummary: result.careerSummary }); // Assign the stats here to use whenever in the state of the component.
-        this.setState({ lastSeason: result.latest }); // Assign the stats here to use whenever in the state of the component.
-      }).catch((err)=>{
-        console.err(err);
-      });
+          this.setState({ careerSummary: result.careerSummary }); // Assign the stats here to use whenever in the state of the component.
+          this.setState({ lastSeason: result.latest }); // Assign the stats here to use whenever in the state of the component.
+        })
+        .catch((err) => {
+          console.err(err);
+        });
     }
   }
 
   // makes an http request and returns a promise based on if succeeding or not.
-  retrievePlayerProfile(params){
-    return new Promise((resolve, reject) =>{
+  retrievePlayerProfile(params) {
+    return new Promise((resolve, reject) => {
       data.playerProfile(params, (err, res) => {
         if (err) {
           console.error(err);
           reject(err);
         }
-  
+
         const stats = res.league.standard.stats;
         console.log(stats);
 
         resolve(stats);
       });
-    })
-    
+    });
   }
 
   addToBoard(event) {
@@ -133,25 +135,10 @@ class PlayerSearch extends React.Component {
     this.props.removePlayer(this.state.name);
   }
 
-  // function creates an array of buttons for the player to click on.
-  generatePlayerButtons() {
-    let suggestionButtons = [];
-
-    for (let key in players) {
-      const btn = (
-        <Button variant="outline" m={0.3} key={key} onClick={this.handleClick}>
-          {key}
-        </Button>
-      );
-      suggestionButtons.push(btn);
-    }
-    return suggestionButtons;
-  }
-
   suggestionClick(player) {
     // Update the player input box with the button clicked. Then we can start the query for getPlayerDetails.
     // Place the getPlayerDetails function in a callback because setState is Async.
-    this.setState({ name: player }, () =>{
+    this.setState({ name: player }, () => {
       this.getPlayerDetails();
     });
   }
@@ -168,16 +155,14 @@ class PlayerSearch extends React.Component {
         <Flex>
           {/* ------Player Search Box: Parent Component */}
           <Box mr={10} width={[1 / 2, 1 / 2, 1 / 2]}>
-            <Label htmlFor="player">Enter a player</Label>
-            <Input
-              id="player"
-              name="player"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
+            <form noValidate autoComplete="off">
+              <TextField id="standard-basic" label="Enter a Player" onChange={this.handleChange} value={this.state.name} />
+            </form>
             <Button
               type="submit"
               value="submit"
+              variant="contained"
+              color="primary"
               onClick={() => this.getPlayerDetails()}
             >
               Submit
@@ -189,8 +174,18 @@ class PlayerSearch extends React.Component {
                 <Text>{name}</Text>
                 <Text>Player Bio:</Text>
                 <Text color="primary">{lastSeasonStats}</Text>
-                <Button onClick={this.addToBoard}>Add Player</Button>
-                <Button variant="outline" onClick={this.removeFromBoard}>
+                <Button
+                  onClick={this.addToBoard}
+                  variant="contained"
+                  color="primary"
+                >
+                  Add Player
+                </Button>
+                <Button
+                  onClick={this.removeFromBoard}
+                  variant="contained"
+                  color="secondary"
+                >
                   Remove Player
                 </Button>
               </Card>
@@ -200,7 +195,10 @@ class PlayerSearch extends React.Component {
           </Box>
           {/* ------Suggestions: Child Component */}
           <Box ml={10} width={[0.1, 0.1, 0.3]}>
-            <Suggestions players={players} suggestionClick={this.suggestionClick} />
+            <Suggestions
+              players={players}
+              suggestionClick={this.suggestionClick}
+            />
           </Box>
         </Flex>
       </React.Fragment>
