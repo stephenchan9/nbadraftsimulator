@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Box, Image, Text, Card } from "rebass";
-import { Switch } from "@rebass/forms";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+
 import DraftBoardSuggested from "./draftboardsuggested";
+import PlayerImageCard from "../../material-assets/playerimagecard";
 
 // Data from nba.data.net
 const data = require("nba.js").data;
@@ -141,42 +145,40 @@ class DraftBoard extends React.Component {
       for (let i = 0; i < players.length; i++) {
         const stats = players[i].lastSeason;
 
-        parsedCards.push(
-          <Card py={10} key={players[i].name + i} width={256}>
-            <Image
-              variant="avatar"
-              sx={{
-                width: ["48%", "48%"],
-                borderRadius: 8,
-              }}
-              src={players[i].img}
-            />
-            <Text fontSize={[1]} color="primary">
-              {players[i].name}
-            </Text>
-            <Text fontSize={[1]}>
-              PPG: {stats.ppg}
-              APG: {stats.apg}
-            </Text>
-          </Card>
-        );
+        // pass in props to the card component in material assets ui.
+        let playerObj = {
+          stats,
+          img: players[i].img,
+          name: players[i].name,
+        };
+
+        parsedCards.push(<PlayerImageCard player={playerObj} />);
       }
     }
 
     return (
       <React.Fragment>
         <Box> {toggle ? "" : parsedCards} </Box>
-        <Box mt={10}>
-          <Switch
-            mt={2}
-            id="switchEnabled"
-            type="switch"
-            checked={this.state.toggle}
-            onClick={this.handleToggle}
-          ></Switch>
-          <Text fontSize={[1]}> {toggle ? "Toggle On" : "Toggle Off"} </Text>
+        <Box mt={2}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={this.state.toggle}
+                onClick={this.handleToggle}
+                color="primary"
+              />
+            }
+            label={toggle ? "On" : "Off"}
+            labelPlacement="start"
+          />
         </Box>
-        <Button onClick={() => this.buildTeam()}> Create Team </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => this.buildTeam()}
+        >
+          Create Team
+        </Button>
       </React.Fragment>
     );
   }

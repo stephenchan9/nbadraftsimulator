@@ -1,5 +1,8 @@
 import React from "react";
-import { Button, Box } from "rebass";
+//import { Button, Box } from "rebass";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 
 /**
  * Child Component of PlayerSearch conistsing of player suggestions in the forms of buttons.
@@ -9,7 +12,7 @@ import { Button, Box } from "rebass";
 
 class Suggestions extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
     // this gets the number of players in the playersuggestion.json
     const count = Object.keys(this.props.players).length;
 
@@ -28,9 +31,18 @@ class Suggestions extends React.Component {
 
     for (let key in players) {
       const btn = (
-        <Button variant="outline" m={.3} key={key} onClick={() => suggestionClick(key)}>
-          {key}
-        </Button>
+        <Box mt={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            spacing={2}
+            style={{maxWidth: '200px', maxHeight: '200px', minWidth: '30px', minHeight: '30px'}}
+            key={key}
+            onClick={() => suggestionClick(key)}
+          >
+            {key}
+          </Button>
+        </Box>
       );
       suggestionButtons.push(btn);
     }
@@ -39,13 +51,9 @@ class Suggestions extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Box
-          sx={{
-            display: "grid",
-          }}
-        >
+        <Grid container direction="column">
           {this.generatePlayerButtons()}
-        </Box>
+        </Grid>
       </React.Fragment>
     );
   }
