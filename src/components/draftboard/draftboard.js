@@ -152,7 +152,7 @@ class DraftBoard extends React.Component {
           name: players[i].name,
         };
 
-        parsedCards.push(<PlayerImageCard player={playerObj} />);
+        parsedCards.push(<PlayerImageCard key= {playerObj.name} player={playerObj} />);
       }
     }
 

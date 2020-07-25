@@ -6,7 +6,7 @@
     and cannot be used inside classes.
 */
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,7 +18,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
 // Icons from material
@@ -30,6 +30,8 @@ import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplica
 // imported components
 import DraftBoardContainer from "../containers/draftboardcontainer";
 import PlayerSearchContainer from "../containers/playersearchcontainer.js";
+import Suggestions from "../components/suggestions";
+const players = require("../db/playersuggestion.json");
 
 const drawerWidth = 240;
 
@@ -63,6 +65,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// need to figure out how to call this function.
+const suggestionClick = ((player) =>{
+  // Update the player input box with the button clicked. Then we can start the query for getPlayerDetails.
+  // Place the getPlayerDetails function in a callback because setState is Async.
+  this.setState({ name: player }, () => {
+    this.getPlayerDetails();
+  });
+});
+
 export default function PermanentDrawerLeft(props) {
   const classes = useStyles();
 
@@ -70,7 +81,8 @@ export default function PermanentDrawerLeft(props) {
   useEffect(() => {
     console.log("Homepage is mounted");
   });
- 
+
+
   // sections to build in the drawers.
   const sections = [
     { text: "Home", icon: <HomeOutlinedIcon /> },
@@ -123,14 +135,18 @@ export default function PermanentDrawerLeft(props) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
+        <Grid container direction="row">
+          <Grid item xs={4}>
             {/* Import the draft board container */}
             <DraftBoardContainer players={props.draftBoard} />
           </Grid>
           <Grid item xs={6}>
             {/* Import the player search container */}
             <PlayerSearchContainer />
+          </Grid>
+          <Grid item>
+            {/* Need to find a way to send player clicker to the suggestionCLick function. */}
+            <Suggestions players={players} />
           </Grid>
         </Grid>
       </main>

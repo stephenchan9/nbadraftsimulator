@@ -31,13 +31,16 @@ class Suggestions extends React.Component {
 
     for (let key in players) {
       const btn = (
-        <Box mt={1}>
+        <Box mt={0.5} key={key}>
           <Button
             variant="contained"
             color="primary"
-            spacing={2}
-            style={{maxWidth: '200px', maxHeight: '200px', minWidth: '30px', minHeight: '30px'}}
-            key={key}
+            style={{
+              maxWidth: "200px",
+              maxHeight: "200px",
+              minWidth: "30px",
+              minHeight: "30px",
+            }}
             onClick={() => suggestionClick(key)}
           >
             {key}
@@ -51,7 +54,7 @@ class Suggestions extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid container direction="column">
+        <Grid container direction="column" justify="flex-end" alignItems="flex-end">
           {this.generatePlayerButtons()}
         </Grid>
       </React.Fragment>

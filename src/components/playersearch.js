@@ -1,13 +1,13 @@
 import React from "react";
-import { Box, Image, Text, Card, Flex } from "rebass";
-// import { Button } from "rebass";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import TextField from '@material-ui/core/TextField';
-//import Box from "@material-ui/core/Box";
+import TextField from "@material-ui/core/TextField";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 
 // child component of the playersearch box
 import Suggestions from "./suggestions";
+import PlayerSearchCard from "../material-assets/playersearchcard";
 const players = require("../db/playersuggestion.json");
 
 // import nba from "nba-api-client";
@@ -152,14 +152,29 @@ class PlayerSearch extends React.Component {
 
     return (
       <React.Fragment>
-        <Flex>
+        <Grid
+          container
+          direction="row"
+          id="gr1-playerSearch"
+          justify="flex-start"
+          spacing={1}
+        >
           {/* ------Player Search Box: Parent Component */}
-          <Box mr={10} width={[1 / 2, 1 / 2, 1 / 2]}>
+          {/* GRID ITEM 1 is the playerSearch input box and Submit button  */}
+          <Grid item>
             <form noValidate autoComplete="off">
-              <TextField id="standard-basic" label="Enter a Player" onChange={this.handleChange} value={this.state.name} />
+              <TextField
+                id="standard-basic"
+                label="Enter a Player"
+                onChange={this.handleChange}
+                value={this.state.name}
+              />
             </form>
+          </Grid>
+          <Grid item>
             <Button
               type="submit"
+              size="medium"
               value="submit"
               variant="contained"
               color="primary"
@@ -167,40 +182,58 @@ class PlayerSearch extends React.Component {
             >
               Submit
             </Button>
-            {/* conditional rendering */}
-            {img ? (
-              <Card>
-                <Image src={img} />
-                <Text>{name}</Text>
-                <Text>Player Bio:</Text>
-                <Text color="primary">{lastSeasonStats}</Text>
-                <Button
-                  onClick={this.addToBoard}
-                  variant="contained"
-                  color="primary"
-                >
-                  Add Player
-                </Button>
-                <Button
-                  onClick={this.removeFromBoard}
-                  variant="contained"
-                  color="secondary"
-                >
-                  Remove Player
-                </Button>
-              </Card>
-            ) : (
-              <Card />
-            )}
-          </Box>
-          {/* ------Suggestions: Child Component */}
-          <Box ml={10} width={[0.1, 0.1, 0.3]}>
+          </Grid>
+          {/* END OF GRID ITEM 1 */}
+          {/* conditional rendering  if img not available, just place an empty box, else place the playerSearchCard.*/}
+          {/* GRID ITEM 2. IMAGESEARCH WITH ADD AND REMOVE BUTTONS */}
+          {img ? (
+            <Grid container id="gr2-imageSearch">
+              <Grid item xs={4}>
+                <PlayerSearchCard
+                  img={img}
+                  name={name}
+                  playerBio="Hello"
+                  stats={lastSeasonStats}
+                />
+              </Grid>
+              <Grid
+                item
+                container
+                spacing={1}
+                direction="row"
+                id="gr-playerButtons"
+              >
+                <Grid item>
+                  <Button
+                    onClick={this.removeFromBoard}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Remove Player
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    onClick={this.addToBoard}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Add Player
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : (
+            <Box />
+          )}
+{/* 
+          <Grid item justify="flex-end">
             <Suggestions
               players={players}
               suggestionClick={this.suggestionClick}
             />
-          </Box>
-        </Flex>
+          </Grid> */}
+        </Grid>
       </React.Fragment>
     );
   }
