@@ -5,8 +5,6 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-
-import DraftBoardSuggested from "./draftboardsuggested";
 import PlayerImageCard from "../../material-assets/playerimagecard";
 
 // Data from nba.data.net

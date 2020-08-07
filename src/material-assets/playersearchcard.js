@@ -12,7 +12,6 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 
 import { red } from "@material-ui/core/colors";
 // import FavoriteIcon from '@material-ui/icons/Favorite';

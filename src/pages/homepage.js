@@ -30,8 +30,6 @@ import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplica
 // imported components
 import DraftBoardContainer from "../containers/draftboardcontainer";
 import PlayerSearchContainer from "../containers/playersearchcontainer.js";
-import Suggestions from "../components/suggestions";
-const players = require("../db/playersuggestion.json");
 
 const drawerWidth = 240;
 
@@ -65,15 +63,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// need to figure out how to call this function.
-const suggestionClick = ((player) =>{
-  // Update the player input box with the button clicked. Then we can start the query for getPlayerDetails.
-  // Place the getPlayerDetails function in a callback because setState is Async.
-  this.setState({ name: player }, () => {
-    this.getPlayerDetails();
-  });
-});
-
 export default function PermanentDrawerLeft(props) {
   const classes = useStyles();
 
@@ -81,7 +70,6 @@ export default function PermanentDrawerLeft(props) {
   useEffect(() => {
     console.log("Homepage is mounted");
   });
-
 
   // sections to build in the drawers.
   const sections = [
@@ -143,10 +131,6 @@ export default function PermanentDrawerLeft(props) {
           <Grid item xs={6}>
             {/* Import the player search container */}
             <PlayerSearchContainer />
-          </Grid>
-          <Grid item>
-            {/* Need to find a way to send player clicker to the suggestionCLick function. */}
-            <Suggestions players={players} />
           </Grid>
         </Grid>
       </main>
