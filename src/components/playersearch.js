@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-
+import placeholder from "../imgs/placeholder.jpg";
 // child component of the playersearch box
 import Suggestions from "./suggestions";
 import PlayerSearchCard from "../material-assets/playersearchcard";
+//const process = require('process');
 const players = require("../db/playersuggestion.json");
 
 // import nba from "nba-api-client";
@@ -66,8 +66,18 @@ class PlayerSearch extends React.Component {
         TeamID: teamId,
       };
       // Get the player headshot and set it to the state.
-      const img = nba.getPlayerHeadshotURL(params);
-      this.setState({ img: img });
+      let img = nba.getPlayerHeadshotURL(params);
+
+      // we test the img URL using fetch and see if its valid. If not valid, use a placeholder image and set the state.
+      if (img) {
+        fetch(img).then((response) => {
+          if (response.ok === false) {
+            // this means the img is not valid. Use a placeholder image from imgs folder aND SET THE STATE
+            img = placeholder;
+            this.setState({ img: img });
+          }
+        });
+      }
 
       // dataParams for requesting data from nba.js data client. Different then nba api-client.
       const dataParams = {
@@ -84,7 +94,7 @@ class PlayerSearch extends React.Component {
           this.setState({ lastSeason: result.latest }); // Assign the stats here to use whenever in the state of the component.
         })
         .catch((err) => {
-          console.err(err);
+          console.error(err);
         });
     }
   }
@@ -144,24 +154,16 @@ class PlayerSearch extends React.Component {
   }
 
   render() {
-    const img = this.state.img;
     const name = this.state.name;
     const lastSeasonStats =
       "" ||
       `Points: ${this.state.lastSeason.ppg}, Apg: ${this.state.lastSeason.apg} Year: ${this.state.lastSeason.seasonYear}`;
+    const img = this.state.img;
 
     return (
       <React.Fragment>
-        <Grid
-          container
-          direction="row"
-          id="gr1-playerSearch"
-          justify="flex-start"
-          spacing={1}
-        >
-          {/* ------Player Search Box: Parent Component */}
-          {/* GRID ITEM 1 is the playerSearch input box and Submit button  */}
-          <Grid item>
+        <Grid container direction="row" spacing={4}>
+          <Grid item xs={6} id="searchbox-with-button">
             <form noValidate autoComplete="off">
               <TextField
                 id="standard-basic"
@@ -170,8 +172,6 @@ class PlayerSearch extends React.Component {
                 value={this.state.name}
               />
             </form>
-          </Grid>
-          <Grid item>
             <Button
               type="submit"
               size="medium"
@@ -182,57 +182,54 @@ class PlayerSearch extends React.Component {
             >
               Submit
             </Button>
+            {/* Image portion here */}
+            {img ? (
+              <Grid container id="gr2-image">
+                <Grid item>
+                  <PlayerSearchCard
+                    img={img}
+                    name={name}
+                    playerBio="Hello"
+                    stats={lastSeasonStats}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  container
+                  spacing={1}
+                  direction="row"
+                  id="add-remove-playerbuttons"
+                >
+                  <Grid item>
+                    <Button
+                      onClick={this.addToBoard}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Add Player
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      onClick={this.removeFromBoard}
+                      variant="contained"
+                      color="secondary"
+                    >
+                      Remove Player
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ) : (
+              ""
+            )}
           </Grid>
-          {/* END OF GRID ITEM 1 */}
-          {/* conditional rendering  if img not available, just place an empty box, else place the playerSearchCard.*/}
-          {/* GRID ITEM 2. IMAGESEARCH WITH ADD AND REMOVE BUTTONS */}
-          {img ? (
-            <Grid container id="gr2-imageSearch">
-              <Grid item xs={4}>
-                <PlayerSearchCard
-                  img={img}
-                  name={name}
-                  playerBio="Hello"
-                  stats={lastSeasonStats}
-                />
-              </Grid>
-              <Grid
-                item
-                container
-                spacing={1}
-                direction="row"
-                id="gr-playerButtons"
-              >
-                <Grid item>
-                  <Button
-                    onClick={this.removeFromBoard}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    Remove Player
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    onClick={this.addToBoard}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Add Player
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          ) : (
-            <Box />
-          )}
-{/* 
-          <Grid item justify="flex-end">
+          <Grid item xs={6} id="suggestions">
             <Suggestions
-              players={players}
               suggestionClick={this.suggestionClick}
+              players={players}
             />
-          </Grid> */}
+          </Grid>
         </Grid>
       </React.Fragment>
     );

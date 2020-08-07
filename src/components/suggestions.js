@@ -1,15 +1,15 @@
 import React from "react";
-//import { Button, Box } from "rebass";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import PropTypes from "prop-types";
+
 
 /**
  * Child Component of PlayerSearch conistsing of player suggestions in the forms of buttons.
  * These will start off with hardcoded values and hopefully mold into real time player changes.
  * Will use buttons for now.
  */
-
 class Suggestions extends React.Component {
   constructor(props) {
     super(props);
@@ -63,3 +63,8 @@ class Suggestions extends React.Component {
 }
 
 export default Suggestions;
+
+Suggestions.propTypes = {
+  players: PropTypes.array.isRequired,
+  suggestionClick: PropTypes.func.isRequired
+};
