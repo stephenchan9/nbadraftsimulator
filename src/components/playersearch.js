@@ -74,10 +74,11 @@ class PlayerSearch extends React.Component {
           if (response.ok === false) {
             // this means the img is not valid. Use a placeholder image from imgs folder aND SET THE STATE
             img = placeholder;
-            this.setState({ img: img });
           }
         });
       }
+
+      this.setState({img: img});
 
       // dataParams for requesting data from nba.js data client. Different then nba api-client.
       const dataParams = {
@@ -89,9 +90,9 @@ class PlayerSearch extends React.Component {
       this.retrievePlayerProfile(dataParams)
         .then((result) => {
           console.log(`Result from retrievePlayerProfile: ${result}`);
-
-          this.setState({ careerSummary: result.careerSummary }); // Assign the stats here to use whenever in the state of the component.
-          this.setState({ lastSeason: result.latest }); // Assign the stats here to use whenever in the state of the component.
+          // Assign the stats here to use whenever in the state of the component.
+          this.setState({ careerSummary: result.careerSummary }); 
+          this.setState({ lastSeason: result.latest }); 
         })
         .catch((err) => {
           console.error(err);
